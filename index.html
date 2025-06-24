@@ -1,1 +1,565 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavina Sengkhyavong - Data Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffd700;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            padding: 2rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Welcome Page */
+        .welcome-content {
+            text-align: center;
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .welcome-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .welcome-content .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .welcome-content .description {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 1s ease 0.6s both;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* About Page */
+        .about-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-content h2 {
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .about-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 1rem;
+        }
+
+        .download-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        /* Projects Page */
+        .projects-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .projects-content h2 {
+            color: #333;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .projects-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .project-status {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status-active {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-completed {
+            background: #6366f1;
+            color: white;
+        }
+
+        .status-planned {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .project-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #5a67d8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .welcome-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .welcome-content .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-content,
+            .projects-content {
+                padding: 2rem;
+                margin: 1rem 0;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .projects-board {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">Pavina Sengkhyavong</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('welcome')" class="active">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- Welcome Page -->
+            <div id="welcome" class="page active">
+                <div class="welcome-content">
+                    <h1>Hello, I'm Pavina!</h1>
+                    <p class="subtitle">Data Engineer & Analytics Professional</p>
+                    <p class="description">
+                        Welcome to my portfolio! I'm passionate about transforming raw data into meaningful insights 
+                        and building robust data infrastructure that drives business decisions. My goal is to leverage 
+                        cutting-edge technologies to solve complex data challenges and contribute to data-driven innovation.
+                    </p>
+                    <a href="#" class="cta-button" onclick="showPage('about')">Learn More About Me</a>
+                </div>
+            </div>
+
+            <!-- About Page -->
+            <div id="about" class="page">
+                <div class="about-content">
+                    <h2>About Me</h2>
+                    <div class="about-grid">
+                        <div class="about-section">
+                            <h3>Technical Skills</h3>
+                            <p>I specialize in building scalable data pipelines and implementing modern data engineering solutions.</p>
+                            <div class="skills-grid">
+                                <div class="skill-tag">Python</div>
+                                <div class="skill-tag">SQL</div>
+                                <div class="skill-tag">Apache Spark</div>
+                                <div class="skill-tag">Kafka</div>
+                                <div class="skill-tag">AWS/Azure</div>
+                                <div class="skill-tag">Docker</div>
+                                <div class="skill-tag">Kubernetes</div>
+                                <div class="skill-tag">Apache Airflow</div>
+                                <div class="skill-tag">PostgreSQL</div>
+                                <div class="skill-tag">MongoDB</div>
+                                <div class="skill-tag">Snowflake</div>
+                                <div class="skill-tag">dbt</div>
+                            </div>
+                        </div>
+                        <div class="about-section">
+                            <h3>Professional Focus</h3>
+                            <p>With a strong foundation in data engineering principles, I focus on:</p>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>Designing and implementing ETL/ELT pipelines</li>
+                                <li>Building real-time data processing systems</li>
+                                <li>Optimizing data warehouse architectures</li>
+                                <li>Ensuring data quality and governance</li>
+                                <li>Collaborating with data scientists and analysts</li>
+                                <li>Implementing CI/CD for data workflows</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="download-section">
+                        <h3>Get My Resume & Connect</h3>
+                        <p style="margin-bottom: 2rem;">Download my resume or reach out to discuss opportunities</p>
+                        <a href="#" class="download-btn">📄 Download Resume</a>
+                        <a href="mailto:your.email@example.com" class="download-btn">✉️ Email Me</a>
+                        
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <span>📧</span>
+                                <span>your.email@example.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <span>🔗</span>
+                                <span>linkedin.com/in/yourprofile</span>
+                            </div>
+                            <div class="contact-item">
+                                <span>📱</span>
+                                <span>(555) 123-4567</span>
+                            </div>
+                            <div class="contact-item">
+                                <span>📍</span>
+                                <span>Your City, State</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Page -->
+            <div id="projects" class="page">
+                <div class="projects-content">
+                    <h2>My Projects</h2>
+                    <div class="projects-board">
+                        <!-- Example Active Project -->
+                        <div class="project-card">
+                            <div class="project-status status-active">Active</div>
+                            <h3>Real-time Analytics Pipeline</h3>
+                            <p>Building a streaming data pipeline using Kafka and Spark to process customer behavior data in real-time for immediate insights and recommendations.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Apache Kafka</span>
+                                <span class="tech-tag">Spark Streaming</span>
+                                <span class="tech-tag">AWS Kinesis</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">View Code →</a>
+                                <a href="#" class="project-link">Live Demo →</a>
+                            </div>
+                        </div>
+
+                        <!-- Example Completed Project -->
+                        <div class="project-card">
+                            <div class="project-status status-completed">Completed</div>
+                            <h3>Data Warehouse Modernization</h3>
+                            <p>Migrated legacy ETL processes to a cloud-based data warehouse using Snowflake and dbt, improving query performance by 60% and reducing costs.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Snowflake</span>
+                                <span class="tech-tag">dbt</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Apache Airflow</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">View Code →</a>
+                                <a href="#" class="project-link">Case Study →</a>
+                            </div>
+                        </div>
+
+                        <!-- Example Planned Project -->
+                        <div class="project-card">
+                            <div class="project-status status-planned">Planned</div>
+                            <h3>ML Feature Store</h3>
+                            <p>Designing a centralized feature store to standardize feature engineering workflows and improve model deployment efficiency across data science teams.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Feast</span>
+                                <span class="tech-tag">Kubernetes</span>
+                                <span class="tech-tag">Redis</span>
+                                <span class="tech-tag">MLflow</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">Project Plan →</a>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder for additional projects -->
+                        <div class="project-card" style="border: 2px dashed #ddd; display: flex; align-items: center; justify-content: center; min-height: 250px;">
+                            <div style="text-align: center; color: #666;">
+                                <h3>More Projects Coming Soon</h3>
+                                <p>I'm always working on new data engineering challenges</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Smooth scrolling for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some interactive elements
+            const skillTags = document.querySelectorAll('.skill-tag');
+            skillTags.forEach(tag => {
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                });
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
