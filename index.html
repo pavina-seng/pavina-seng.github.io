@@ -18,6 +18,55 @@
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-left: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s ease infinite;
+            margin-bottom: 2rem;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         .container {
@@ -36,6 +85,12 @@
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
         }
 
         nav .container {
@@ -48,6 +103,11 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .nav-links {
@@ -60,13 +120,35 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            position: relative;
         }
 
         .nav-links a:hover,
         .nav-links a.active {
             color: #ffd700;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
         }
 
         /* Main Content */
@@ -81,6 +163,7 @@
             display: none;
             width: 100%;
             padding: 2rem 0;
+            animation: fadeInUp 0.6s ease;
         }
 
         .page.active {
@@ -98,6 +181,18 @@
             font-size: 3.5rem;
             margin-bottom: 1rem;
             animation: fadeInUp 1s ease;
+            min-height: 4.5rem;
+            color: #ffd700;
+        }
+        /* Typing Animation */
+        .typing-text {
+            border-right: 3px solid white;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: white; }
         }
 
         .welcome-content .subtitle {
@@ -115,24 +210,59 @@
             animation: fadeInUp 1s ease 0.4s both;
         }
 
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
         .cta-button {
             display: inline-block;
             padding: 1rem 2rem;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: transparent;
+            color: #ffd700;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
             transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: fadeInUp 1s ease 0.6s both;
+            border: 2px solid rgba(255, 215, 0, 0.8);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 215, 0, 0.8);
+            color: #ffd700;
+        }
+
+        .cta-button.secondary:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: #ffd700;
         }
 
         /* About Page */
@@ -142,6 +272,7 @@
             padding: 3rem;
             margin: 2rem 0;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .about-content h2 {
@@ -154,8 +285,7 @@
         .about-intro {
             text-align: left;
             margin-bottom: 3rem;
-            padding: 0 2rem 2rem 2rem;
-            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
         }
 
         .about-intro p {
@@ -181,7 +311,7 @@
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -194,7 +324,16 @@
             text-align: center;
             font-size: 0.9rem;
             font-weight: 500;
+            transition: all 0.3s ease;
         }
+
+        /*
+        .skill-tag:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            background: #5a67d8;
+        }
+        */
 
         .download-section {
             text-align: center;
@@ -213,12 +352,29 @@
             font-weight: 600;
             transition: all 0.3s ease;
             margin: 0 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
         }
 
         .download-btn:hover {
             background: #5a67d8;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
         }
 
         .contact-info {
@@ -243,6 +399,7 @@
             padding: 3rem;
             margin: 2rem 0;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .projects-content h2 {
@@ -264,19 +421,43 @@
             border-radius: 15px;
             padding: 2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             border-left: 4px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px) rotateY(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border-left-color: #764ba2;
         }
 
         .project-card h3 {
             color: #333;
             margin-bottom: 1rem;
             font-size: 1.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .project-card:hover h3 {
+            color: #667eea;
         }
 
         .project-status {
@@ -286,21 +467,25 @@
             font-size: 0.8rem;
             font-weight: 600;
             margin-bottom: 1rem;
+            animation: fadeInUp 0.6s ease;
         }
 
         .status-active {
             background: #10b981;
             color: white;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
         }
 
         .status-completed {
             background: #6366f1;
             color: white;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
         }
 
         .status-planned {
             background: #f59e0b;
             color: white;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
         }
 
         .project-tech {
@@ -316,7 +501,16 @@
             padding: 0.3rem 0.8rem;
             border-radius: 15px;
             font-size: 0.8rem;
+            transition: all 0.3s ease;
         }
+
+        /*
+        .tech-tag:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+        */
 
         .project-links {
             display: flex;
@@ -328,11 +522,17 @@
             color: #667eea;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: 1px solid transparent;
         }
 
         .project-link:hover {
             color: #5a67d8;
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
         }
 
         /* Animations */
@@ -344,6 +544,28 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
@@ -386,7 +608,7 @@
         .footer-links a:hover {
             color: white;
             background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.1);
         }
 
         .footer-links svg {
@@ -394,26 +616,73 @@
             height: 20px;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .footer-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
+        /* Performance optimizations */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Mobile Responsive Design */
         @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
             .nav-links {
-                gap: 1rem;
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(102, 126, 234, 0.95);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 80%;
+                text-align: center;
             }
 
             .welcome-content h1 {
                 font-size: 2.5rem;
+                min-height: 3.5rem;
             }
 
             .welcome-content .subtitle {
                 font-size: 1.2rem;
+            }
+
+            .welcome-content .description {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 80%;
+                max-width: 300px;
+                text-align: center;
             }
 
             .about-grid {
@@ -423,8 +692,13 @@
 
             .about-content,
             .projects-content {
-                padding: 2rem;
+                padding: 2rem 1.5rem;
                 margin: 1rem 0;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 0.8rem;
             }
 
             .contact-info {
@@ -435,15 +709,82 @@
 
             .projects-board {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+
+            .project-card:hover {
+                transform: translateY(-5px) rotateY(0deg);
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .welcome-content {
+                padding: 2rem 0;
+            }
+
+            .welcome-content h1 {
+                font-size: 2rem;
+                min-height: 2.8rem;
+            }
+
+            .about-content h2,
+            .projects-content h2 {
+                font-size: 2rem;
+            }
+
+            .skill-tag {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
 </head>
 <body>
-    <nav>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Loading Portfolio...</div>
+    </div>
+
+    <nav id="navbar">
         <div class="container">
             <div class="logo">Pavina Sengkhyavong</div>
-            <ul class="nav-links">
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#" onclick="showPage('welcome')" class="active">Home</a></li>
                 <li><a href="#" onclick="showPage('about')">About</a></li>
                 <li><a href="#" onclick="showPage('projects')">Projects</a></li>
@@ -456,7 +797,7 @@
             <!-- Welcome Page -->
             <div id="welcome" class="page active">
                 <div class="welcome-content">
-                    <h1>Hello, I'm Pavina!</h1>
+                    <h1>Hello, I'm <span class="typing-text" id="typingText"></span></h1>
                     <p class="subtitle">Data Engineering | Systems Development | Data Quality</p>
                     <p class="description">
                         Welcome to my portfolio! I build and optimize data systems that deliver clean, 
@@ -465,7 +806,10 @@
                         innovate. My goal is to create solutions that teams can trust to uncover insights 
                         and make informed decisions at scale.
                     </p>
-                    <a href="#" class="cta-button" onclick="showPage('about')">Learn More About Me</a>
+                    <div class="cta-buttons">
+                        <a href="#" class="cta-button" onclick="showPage('about')">Learn More About Me</a>
+                        <a href="#" class="cta-button secondary" onclick="showPage('projects')">View My Work</a>
+                    </div>
                 </div>
             </div>
 
@@ -624,7 +968,7 @@
                     © 2025 Pavina Sengkhyavong. All rights reserved.
                 </div>
                 <div class="footer-links">
-                    <a href="https://github.com/pavina-seng" target="_blank" rel="noopener noreferrer" title="GitHub">
+                    <a href="https://github.com/pavina-seng target="_blank" rel="noopener noreferrer" title="GitHub">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
@@ -645,36 +989,329 @@
     </footer>
 
     <script>
+        // Global variables
+        let currentPageIndex = 0;
+        const pages = ['welcome', 'about', 'projects'];
+        const name = "Pavina!";
+        let typingIndex = 0;
+        let isTyping = true;
+
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.classList.add('hidden');
+                
+                // Start typing animation after loading
+                setTimeout(() => {
+                    startTypingAnimation();
+                }, 500);
+            }, 2000);
+        });
+
+        // Typing animation
+        function startTypingAnimation() {
+            const typingElement = document.getElementById('typingText');
+            
+            function typeChar() {
+                if (typingIndex < name.length) {
+                    typingElement.textContent += name.charAt(typingIndex);
+                    typingIndex++;
+                    setTimeout(typeChar, 100);
+                } else {
+                    // Finished typing, remove cursor
+                    setTimeout(() => {
+                        typingElement.classList.remove('typing-text');
+                    }, 1000);
+                }
+            }
+            
+            typeChar();
+        }
+
+        // Navigation functionality
         function showPage(pageId) {
             // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            const allPages = document.querySelectorAll('.page');
+            allPages.forEach(page => {
+                page.classList.remove('active');
+            });
             
             // Show selected page
-            document.getElementById(pageId).classList.add('active');
+            const targetPage = document.getElementById(pageId);
+            targetPage.classList.add('active');
             
             // Update navigation
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => link.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Scroll to top
-            window.scrollTo(0, 0);
+            // Close mobile menu if open
+            const navLinksContainer = document.getElementById('navLinks');
+            const mobileToggle = document.getElementById('mobileMenuToggle');
+            navLinksContainer.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            
+            // Scroll to top with smooth animation
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Update current page index
+            currentPageIndex = pages.indexOf(pageId);
         }
 
-        // Smooth scrolling for better UX
+        // Mobile menu toggle
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = this;
+            
+            navLinks.classList.toggle('active');
+            toggle.classList.toggle('active');
+            
+            // Animate hamburger menu
+            const spans = toggle.querySelectorAll('span');
+            if (toggle.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                spans[0].style.transform = 'rotate(0) translate(0, 0)';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'rotate(0) translate(0, 0)';
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && currentPageIndex > 0) {
+                currentPageIndex--;
+                showPageByIndex(currentPageIndex);
+            } else if (e.key === 'ArrowRight' && currentPageIndex < pages.length - 1) {
+                currentPageIndex++;
+                showPageByIndex(currentPageIndex);
+            }
+        });
+
+        function showPageByIndex(index) {
+            const pageId = pages[index];
+            const targetLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
+            if (targetLink) {
+                // Simulate click to update active states
+                targetLink.click();
+            }
+        }
+
+        // Enhanced animations and interactions
         document.addEventListener('DOMContentLoaded', function() {
-            // Add some interactive elements
+            // Skill tags interactive effects
+            /*
             const skillTags = document.querySelectorAll('.skill-tag');
             skillTags.forEach(tag => {
                 tag.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.05)';
+                    this.style.transform = 'scale(1.05) translateY(-2px)';
+                    this.style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.3)';
                 });
+                
                 tag.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
+                    this.style.transform = 'scale(1) translateY(0)';
+                    this.style.boxShadow = 'none';
                 });
             });
+            */
+            // Project cards enhanced hover effects
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    // Add a subtle glow effect
+                    this.style.boxShadow = '0 25px 50px rgba(102, 126, 234, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                });
+            });
+
+            // Smooth reveal animations for elements
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            const animatedElements = document.querySelectorAll('.project-card, .contact-item');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Add ripple effect to buttons
+            const buttons = document.querySelectorAll('.cta-button, .download-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        left: ${x}px;
+                        top: ${y}px;
+                        width: ${size}px;
+                        height: ${size}px;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(2);
+                        opacity: 0;
+                    }
+                }
+                .cta-button, .download-btn {
+                    position: relative;
+                    overflow: hidden;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Parallax effect for background
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.body;
+                const speed = scrolled * 0.5;
+                parallax.style.backgroundPosition = `center ${speed}px`;
+            });
+
+            // Preload images for better performance
+            const imageUrls = [
+                // Add any image URLs here if you have them
+            ];
+            
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+
+            // Performance optimization: Lazy load elements
+            const lazyElements = document.querySelectorAll('[data-lazy]');
+            const lazyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        element.src = element.dataset.lazy;
+                        element.classList.remove('lazy');
+                        lazyObserver.unobserve(element);
+                    }
+                });
+            });
+
+            lazyElements.forEach(el => {
+                lazyObserver.observe(el);
+            });
+
+            // Add smooth transitions to page changes
+            const pageElements = document.querySelectorAll('.page');
+            pageElements.forEach(page => {
+                page.style.transition = 'opacity 0.3s ease-in-out';
+            });
+
+            // Enhance accessibility
+            document.addEventListener('focusin', function(e) {
+                if (e.target.matches('a, button, input, textarea, select')) {
+                    e.target.style.outline = '2px solid #667eea';
+                    e.target.style.outlineOffset = '2px';
+                }
+            });
+
+            document.addEventListener('focusout', function(e) {
+                if (e.target.matches('a, button, input, textarea, select')) {
+                    e.target.style.outline = 'none';
+                }
+            });
         });
+
+        // Error handling and fallbacks
+        window.addEventListener('error', function(e) {
+            console.error('An error occurred:', e.error);
+            // Fallback behavior
+        });
+
+        // Touch gestures for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0 && currentPageIndex < pages.length - 1) {
+                    // Swipe left - next page
+                    currentPageIndex++;
+                    showPageByIndex(currentPageIndex);
+                } else if (diff < 0 && currentPageIndex > 0) {
+                    // Swipe right - previous page
+                    currentPageIndex--;
+                    showPageByIndex(currentPageIndex);
+                }
+            }
+        }
+
+        // Service worker registration for PWA capabilities (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // navigator.serviceWorker.register('/sw.js');
+            });
+        }
     </script>
 </body>
 </html>
